@@ -33,6 +33,9 @@ Plugin 'davidhalter/jedi-vim'
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
 
+" taglist
+Plugin 'taglist.vim'  " from vim.org/script
+
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -76,9 +79,45 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 " ==========================================================
+" => Functions
+" ==========================================================
+" Get running OS
+function! GetRunningOS()
+    if has("win32")
+        return "win"
+    endif
+    if has("unix")
+        if system('uname')=~'Darwin'
+            return "mac"
+        else
+            return "unix"
+        endif
+    endif
+endfunction
+
+" ==========================================================
+" => General 
+" ==========================================================
+let os=GetRunningOS()
+
+
+
+" ==========================================================
 " Plugin Settings
 " ==========================================================
 map <C-n> :NERDTreeToggle<CR>
+""" taglist
+map <C-t> :TlistToggle<CR>
+let Tlist_Use_Right_Window = 1 " show window on the right
+let Tlist_Show_One_File = 1 " show tags in one file.
+let Tlist_File_Fold_Auto_Close = 1
+let Tlist_WinWidth = 45
+let Tlist_GainFocus_On_ToggleOpen = 1
+let Tlist_Exit_OnlyWindow = 1
+if os=="mac"
+    let g:Tlist_Ctags_Cmd='/usr/local/bin/ctags'  " Proper ctags location
+endif
+
 """ pymode
 " https://github.com/klen/python-mode/blob/develop/doc/pymode.txt
 let g:pymode_options_max_line_length = 119  " Setup max line length
