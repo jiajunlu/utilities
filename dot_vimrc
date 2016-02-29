@@ -9,6 +9,11 @@ set nocompatible              " be iMproved, required
 let mapleader=","             " change the leader to be a coma vs slash
 filetype off                  " required
 
+" Setting for spell check
+autocmd BufRead *.txt,*.tex,*.md,*.markdown setlocal spell
+set spelllang=en_us
+
+
 """
 " Set up Vundle:
 " $ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -62,6 +67,10 @@ Plugin 'yann2192/vim-vitamins'
 Plugin 'tomtom/tlib_vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'garbas/vim-snipmate'
+
+" markdown and tabular
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
