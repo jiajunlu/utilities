@@ -1,0 +1,27 @@
+# first session
+new-session -s dev -n debug -c /home/jiajlu/perforce_ws
+
+selectp -t 0 # select the first (0) pane
+splitw -h -p 50 # split it into two halves
+selectp -t 1 # select the new, second (1) pane
+splitw -v -p 50 # split it into two halves
+selectp -t 0 # go back to the first pane
+
+new-window -n coding -c /home/jiajlu/perforce_ws
+selectp -t 0 # select the first (0) pane
+splitw -h -p 40 # split it into two halves
+selectp -t 1 # select the new, second (1) pane
+splitw -h -p 50 # split it into two halves
+selectp -t 0 # go back to the first pane
+
+new-window -n asa -c /home/jiajlu/tftpboot
+
+selectp -t 0 # select the first (0) pane
+splitw -h -p 50 # split it into two halves
+splitw -v -p 50 # split it into two halves
+selectp -t 0 # go back to the first pane
+# project sessions
+
+ 
+
+
