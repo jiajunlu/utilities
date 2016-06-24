@@ -5,6 +5,16 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# pip should only run if there is a virtualenv currently activated
+export PIP_REQUIRE_VIRTUALENV=true
+
+gpip(){
+   PIP_REQUIRE_VIRTUALENV="" pip "$@"
+}
+export WORKON_HOME=~/Envs
+export PROJECT_HOME=~/github
+source /usr/local/bin/virtualenvwrapper.sh
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
