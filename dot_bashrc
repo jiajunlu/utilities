@@ -14,8 +14,6 @@ export PIP_REQUIRE_VIRTUALENV=true
 gpip(){
    PIP_REQUIRE_VIRTUALENV="" pip "$@"
 }
-export WORKON_HOME=$LH/Envs
-export PROJECT_HOME=$LH/github
 
 case "$OSTYPE" in
 	darwin*)
@@ -23,10 +21,14 @@ case "$OSTYPE" in
 		source /usr/local/bin/virtualenvwrapper.sh
 		;;
 	linux*)
-		# echo linux
-		### problem on linux, disable now.
-		# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-		# source /usr/bin/virtualenvwrapper.sh
+		# detect OS and OS version
+		OS=$(lsb_release -si)
+		VER=$(lsb_release -sr)
+		if [ $OS = "Ubuntu" ] && [ $VER = "16.04" ]; then
+			source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+		else
+			source /usr/local/bin/virtualenvwrapper.sh
+		fi
 		;;
 esac
 
