@@ -5,15 +5,30 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+#
+# only install pip, virtualenv and virtualenvwrapper from root
+#
 # pip should only run if there is a virtualenv currently activated
 export PIP_REQUIRE_VIRTUALENV=true
 
 gpip(){
    PIP_REQUIRE_VIRTUALENV="" pip "$@"
 }
-export WORKON_HOME=~/Envs
-export PROJECT_HOME=~/github
-source /usr/local/bin/virtualenvwrapper.sh
+export WORKON_HOME=$LH/Envs
+export PROJECT_HOME=$LH/github
+
+case "$OSTYPE" in
+	darwin*)
+		# echo darwin
+		source /usr/local/bin/virtualenvwrapper.sh
+		;;
+	linux*)
+		# echo linux
+		### problem on linux, disable now.
+		# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+		# source /usr/bin/virtualenvwrapper.sh
+		;;
+esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
