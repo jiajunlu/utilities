@@ -33,10 +33,6 @@ Plug 'scrooloose/syntastic', { 'for': ['php', 'python', 'javascript', 'css'] }
 " Pairs of handy bracket mappings
 Plug 'tpope/vim-unimpaired'
 
-" Fancy statusline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
 Plug 'scrooloose/nerdtree'
 
 " missing libc.6 2.14
@@ -65,10 +61,15 @@ Plug 'tpope/vim-fugitive'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }  " jedi-vim is a VIM binding to the autocompletion library Jedi.
 Plug 'klen/python-mode', { 'for': 'python' }
 
-" C
-Plug 'taglist.vim',	{ 'for': 'c' }  " from vim.org/script
-Plug 'jiajunlu/cscope_maps', { 'for': 'c' }
+" C & Cpp
+Plug 'majutsushi/tagbar',    { 'for': ['c', 'cpp'] }
+Plug 'jiajunlu/cscope_maps', { 'for': ['c', 'cpp'] }
 
+" Fancy statusline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+syntax on
 filetype plugin indent on                   " required!
 
 call plug#end()
@@ -76,16 +77,14 @@ call plug#end()
 set nocompatible              " be iMproved, required
 let mapleader=","             " change the leader to be a coma vs slash
 
+let g:airline#extensions#tagbar#enabled = 1
+
 map <C-n> :NERDTreeToggle<CR>
 
 """ taglist
-noremap <silent> <F8> :TlistToggle<CR>
-let Tlist_Use_Right_Window = 1 " show window on the right
-let Tlist_Show_One_File = 1 " show tags in one file.
-let Tlist_File_Fold_Auto_Close = 1
-let Tlist_WinWidth = 45
-let Tlist_GainFocus_On_ToggleOpen = 1
-let Tlist_Exit_OnlyWindow = 1
+noremap <silent> <F8> :TagbarToggle<CR>
+nmap <Leader>tb :TagbarToggle<CR>
+map <F3> :Tagbar<CR>
 
 syntax on                     " syntax highlighing
 filetype on                   " try to detect filetypes
