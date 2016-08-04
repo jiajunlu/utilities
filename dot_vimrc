@@ -64,6 +64,7 @@ Plug 'klen/python-mode', { 'for': 'python' }
 " C & Cpp
 Plug 'majutsushi/tagbar',    { 'for': ['c', 'cpp'] }
 Plug 'jiajunlu/cscope_maps', { 'for': ['c', 'cpp'] }
+Plug 'vim-scripts/cscope-menu', { 'for': ['c', 'cpp'] }
 
 " Fancy statusline
 Plug 'vim-airline/vim-airline'
