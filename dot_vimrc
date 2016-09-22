@@ -70,6 +70,8 @@ Plug 'vim-scripts/cscope-menu', { 'for': ['c', 'cpp'] }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'mileszs/ack.vim'
+
 syntax on
 filetype plugin indent on                   " required!
 
@@ -81,6 +83,18 @@ let mapleader=","             " change the leader to be a coma vs slash
 let g:airline#extensions#tagbar#enabled = 1
 
 map <C-n> :NERDTreeToggle<CR>
+autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+" Close all open buffers on entering a window if the only
+" buffer that's left is the NERDTree buffer
+function! s:CloseIfOnlyNerdTreeLeft()
+    if exists("t:NERDTreeBufName")
+        if bufwinnr(t:NERDTreeBufName) != -1
+            if winnr("$") == 1
+				q
+			endif
+		endif
+	endif
+endfunction
 
 """ taglist
 noremap <silent> <F8> :TagbarToggle<CR>
