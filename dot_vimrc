@@ -4,7 +4,7 @@
 " ----------------------------------------------------------------------------
 "  I switched to Plug from Vundle since it takes very long time to load
 "  vim. Plug's lazy loading feature makes better.
-"  
+"
 "  Start from something simple
 " ----------------------------------------------------------------------------
 
@@ -149,17 +149,20 @@ autocmd FileType * setlocal colorcolumn=0
 " Remove trailing whitespace on <leader>S
 nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
 
-if has("patch-7.4.710")
-	set listchars=eol:⏎,tab:⇒.,trail:␣,extends:»,precedes:«
-else
-	set listchars=eol:~,tab:>.,trail:~,extends:>,precedes:<
-endif
+" if has("patch-7.4.710")
+set listchars=eol:⏎,tab:⇒.,trail:␣,extends:»,precedes:«
+"else
+"	set listchars=eol:~,tab:>.,trail:~,extends:>,precedes:<
+"endif
 "http://vi.stackexchange.com/questions/422/displaying-tabs-as-characters
 set list
 
 set syntax=whitespace
 
+
 set pastetoggle=<F2>
+"Remove all trailing whitespace by pressing F5
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 """ muscle saver
 nnoremap ; :
@@ -181,7 +184,7 @@ set nowrap                  " don't wrap text
 set linebreak               " don't wrap textin the middle of a word
 set autoindent              " always set autoindenting on
 set smartindent             " use smart indent if there is no indent file
-set tabstop=4               " <tab> inserts 4 spaces 
+set tabstop=4               " <tab> inserts 4 spaces
 set shiftwidth=4            " but an indent level is 2 spaces wide.
 set softtabstop=4           " <BS> over an autoindent deletes both spaces.
 "set expandtab               " Use spaces, not tabs, for autoindent/tab key.
@@ -223,7 +226,7 @@ set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
 """ Searching and Patterns
 set ignorecase              " Default to using case insensitive searches,
 set smartcase               " unless uppercase letters are used in the regex.
-set smarttab                " Handle tabs more intelligently 
+set smarttab                " Handle tabs more intelligently
 set hlsearch                " Highlight searches by default.
 set incsearch               " Incrementally search while typing a /regex
 
@@ -231,18 +234,19 @@ set incsearch               " Incrementally search while typing a /regex
 set spelllang=en_us
 set background=dark
 colorscheme Tomorrow-Night-Bright
-
+"':echo g:colors_name' to check current color scheme
 function! SetupCEnv()
-    setlocal colorcolumn=80
-    set tabstop=4           " tab is 8 spaces
-    set softtabstop=4
-    set expandtab           " use spaces, no tabs, for autoindent/tab key.
-    colorscheme PaperColor 
+	setlocal colorcolumn=80
+	set tabstop=4           " tab is 8 spaces
+	set softtabstop=4
+	set expandtab           " use spaces, no tabs, for autoindent/tab key.
+	set bg=light
+	colorscheme desert
 endfunction
 
 function! SetupTextEnv()
-    setlocal spell 
-    colorscheme molokai
+	setlocal spell
+	colorscheme molokai
 endfunction
 
 function! SetupPythonEnv()
