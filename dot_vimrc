@@ -88,6 +88,10 @@ Plug 'mileszs/ack.vim'
 " Remember the last edit postion
 Plug 'dietsche/vim-lastplace'
 
+" Arg wrap, easy reformat functions
+Plug 'FooSoft/vim-argwrap'
+Plug 'AndrewRadev/splitjoin'
+
 syntax on
 filetype plugin indent on                   " required!
 
@@ -98,26 +102,33 @@ let mapleader=","             " change the leader to be a coma vs slash
 
 let g:airline#extensions#tagbar#enabled = 1
 
-map <C-n> :NERDTreeToggle<CR>
-autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-" Close all open buffers on entering a window if the only
-" buffer that's left is the NERDTree buffer
-function! s:CloseIfOnlyNerdTreeLeft()
-	if exists("t:NERDTreeBufName")
-		if bufwinnr(t:NERDTreeBufName) != -1
-			if winnr("$") == 1
-				q
-			endif
-		endif
-	endif
-endfunction
+" map <C-n> :NERDTreeToggle<CR>
+" autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+" " Close all open buffers on entering a window if the only
+" " buffer that's left is the NERDTree buffer
+" function! s:CloseIfOnlyNerdTreeLeft()
+" 	if exists("t:NERDTreeBufName")
+" 		if bufwinnr(t:NERDTreeBufName) != -1
+" 			if winnr("$") == 1
+" 				q
+" 			endif
+" 		endif
+" 	endif
+" endfunction
 
-map <Leader>n <plug>NERDTreeTabsToggle<CR>
+map <C-n> :NERDTreeTabsToggle<CR>
+"map <Leader>n <plug>NERDTreeTabsToggle<CR>
 
 """ taglist
 noremap <silent> <F8> :TagbarToggle<CR>
 nmap <Leader>tb :TagbarToggle<CR>
 map <F3> :Tagbar<CR>
+
+""" ArgWrap
+nnoremap <silent> <leader>a :ArgWrap<CR>
+""" SplitJoin, also try gS and gJ
+nmap <Leader>j :SplitjoinJoin<cr>
+nmap <Leader>s :SplitjoinSplit<cr>
 
 syntax on                     " syntax highlighing
 filetype on                   " try to detect filetypes
