@@ -20,9 +20,6 @@ if empty(glob("~/.vim/autoload/plug.vim"))
 endif
 
 call plug#begin('~/.vim/plugged')
-" logging
-Plug 'nobe4/log.vim'
-
 " Colorschemes
 Plug 'captbaritone/molokai'
 Plug 'chriskempson/vim-tomorrow-theme'
@@ -30,9 +27,6 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'fxn/vim-monochrome'
 Plug 'chriskempson/base16-vim'
 Plug 'NLKNguyen/papercolor-theme'
-
-" Make % match xml tags
-Plug 'edsono/vim-matchit', { 'for': ['html', 'xml'] }
 
 " Syntastic: Code linting errors
 Plug 'scrooloose/syntastic', { 'for': ['php', 'python', 'javascript', 'css'] }
