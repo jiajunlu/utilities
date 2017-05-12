@@ -1,0 +1,11 @@
+if has("gui_gtk2")
+	set guifont=Monospace\ 17
+elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h14
+elseif has("gui_win32")
+    set guifont=Consolas:h11:cANSI
+else
+	set guifont=Monospace\ 11
+endif
+
+set lines=400 columns=200
