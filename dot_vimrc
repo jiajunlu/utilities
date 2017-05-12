@@ -1,5 +1,7 @@
-"scriptencoding utf-8
-"set encoding=utf-8
+scriptencoding utf-8
+set encoding=utf-8
+set termencoding=utf-8
+set fileencodings=          " Don't do any encoding conversion
 
 " ----------------------------------------------------------------------------
 "  I switched to Plug from Vundle since it takes very long time to load
@@ -10,14 +12,16 @@
 
 " Install vim-plug if we don't already have it
 if empty(glob("~/.vim/autoload/plug.vim"))
-    " Ensure all needed directories exist  (Thanks @kapadiamush)
-    execute '!mkdir -p ~/.vim/plugged'
-    execute '!mkdir -p ~/.vim/autoload'
-    " Download the actual plugin manager
-    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+	" Ensure all needed directories exist  (Thanks @kapadiamush)
+	execute '!mkdir -p ~/.vim/plugged'
+	execute '!mkdir -p ~/.vim/autoload'
+	" Download the actual plugin manager
+	execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
 
 call plug#begin('~/.vim/plugged')
+" logging
+Plug 'nobe4/log.vim'
 
 " Colorschemes
 Plug 'captbaritone/molokai'
@@ -44,18 +48,11 @@ Plug 'garbas/vim-snipmate'
 " Optional:
 Plug 'honza/vim-snippets'
 
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeTabsToggle' }
+Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeTabsToggle' }
 
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-
-" missing libc.6 2.14
-" function! BuildYCM(info)
-    " if a:info.status == 'installed' || a:info.force
-    "     !./install.sh
-    " endif
-" endfunction
-" Plug 'Valloric/YouCompleteMe', { 'for' : [ 'c', 'cpp' ], 'do': function('BuildYCM') }
-" autocmd! User YouCompleteMe call youcompleteme#Enable()
+" use "& to copy paste between tmux buffer
+Plug 'kana/vim-fakeclip'
 
 " use gc
 " Make commenting easier, [:help commentary]
@@ -75,13 +72,13 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }  " jedi-vim is a VIM binding to
 Plug 'klen/python-mode', { 'for': 'python' }
 
 " C & Cpp
-Plug 'majutsushi/tagbar',    { 'for': ['c', 'cpp'] }
+Plug 'majutsushi/tagbar',	 { 'for': ['c', 'cpp'] }
 Plug 'jiajunlu/cscope_maps', { 'for': ['c', 'cpp'] }
 Plug 'vim-scripts/cscope-menu', { 'for': ['c', 'cpp'] }
 
 " Fancy statusline
-Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
 
 Plug 'mileszs/ack.vim'
 
@@ -90,15 +87,45 @@ Plug 'dietsche/vim-lastplace'
 
 " Arg wrap, easy reformat functions
 Plug 'FooSoft/vim-argwrap'
-Plug 'AndrewRadev/splitjoin'
+
+" p4
+Plug 'nfvs/vim-perforce'
 
 syntax on
-filetype plugin indent on                   " required!
+filetype plugin indent on					" required!
 
 call plug#end()
 
-set nocompatible              " be iMproved, required
-let mapleader=","             " change the leader to be a coma vs slash
+set nocompatible			  " be iMproved, required
+let mapleader=","			  " change the leader to be a coma vs slash
+
+" Tips: The '.' command repeats the last change made in normal mode. For example, if
+" you press dw to delete a word, you can then press . to delete another word (.
+" is dot, aka period or full stop).
+"
+" The '@:' command repeats the last command-line change (a command invoked with
+" ':', for example :s/old/new/).
+
+" allows cursor change in tmux mode
+" These lines change the cursor from block cursor mode to vertical bar cursor mode when using tmux. Without these lines, tmux always uses block cursor mode.
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+" copy paste
+" https://gist.github.com/burke/5960455
+function! PropagatePasteBufferToOSX()
+	let @n=getreg('"')
+	call system('pbcopy-remote', @n)
+	echo "done"
+endfunction
+
+nnoremap <leader>6 :call PropagatePasteBufferToOSX()<cr>
+map <F3> :call PropagatePasteBufferToOSX()<cr>
 
 let g:airline#extensions#tagbar#enabled = 1
 
@@ -107,13 +134,13 @@ let g:airline#extensions#tagbar#enabled = 1
 " " Close all open buffers on entering a window if the only
 " " buffer that's left is the NERDTree buffer
 " function! s:CloseIfOnlyNerdTreeLeft()
-" 	if exists("t:NERDTreeBufName")
-" 		if bufwinnr(t:NERDTreeBufName) != -1
-" 			if winnr("$") == 1
-" 				q
-" 			endif
-" 		endif
-" 	endif
+"	if exists("t:NERDTreeBufName")
+"		if bufwinnr(t:NERDTreeBufName) != -1
+"			if winnr("$") == 1
+"				q
+"			endif
+"		endif
+"	endif
 " endfunction
 
 map <C-n> :NERDTreeTabsToggle<CR>
@@ -122,7 +149,8 @@ map <C-n> :NERDTreeTabsToggle<CR>
 """ taglist
 noremap <silent> <F8> :TagbarToggle<CR>
 nmap <Leader>tb :TagbarToggle<CR>
-map <F3> :Tagbar<CR>
+
+""" copy to fakeclip
 
 """ ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
@@ -130,15 +158,15 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 nmap <Leader>j :SplitjoinJoin<cr>
 nmap <Leader>s :SplitjoinSplit<cr>
 
-syntax on                     " syntax highlighing
-filetype on                   " try to detect filetypes
+syntax on					  " syntax highlighing
+filetype on					  " try to detect filetypes
 imap jj <Esc>
-set number                    " Display line numbers
-set numberwidth=1             " using only 1 column (and 1 space) while possible
+set number					  " Display line numbers
+set numberwidth=1			  " using only 1 column (and 1 space) while possible
 
-set title                     " show title in console title bar
-set wildmenu                  " Menu completion in command mode on <Tab>
-set wildmode=full             " <Tab> cycles between all matching choices.
+set title					  " show title in console title bar
+set wildmenu				  " Menu completion in command mode on <Tab>
+set wildmode=full			  " <Tab> cycles between all matching choices.
 
 " don't bell or blink
 set noerrorbells
@@ -149,7 +177,15 @@ set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
 
-"   set grepprg=ack         " replace the default grep program with ack
+"	set grepprg=ack			" replace the default grep program with acka
+if executable('ag')
+	let g:ackprg = 'ag --vimgrep --smart-case'
+endif
+
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
 
 " tabs key mapping vim style
 nnoremap th  :tabfirst<CR>
@@ -164,6 +200,7 @@ nnoremap td  :tabclose<CR>
 "nnoremap th :tabnext<CR>
 "nnoremap tl :tabprev<CR>
 "nnoremap tn :tabnew<CR>
+set guitablabel=\[%N\]\ %t\ %M
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
@@ -175,16 +212,12 @@ autocmd FileType * setlocal colorcolumn=0
 " Remove trailing whitespace on <leader>S
 nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
 
-" if has("patch-7.4.710")
-set listchars=eol:⏎,tab:⇒.,trail:␣,extends:»,precedes:«
-"else
-"	set listchars=eol:~,tab:>.,trail:~,extends:>,precedes:<
-"endif
-"http://vi.stackexchange.com/questions/422/displaying-tabs-as-characters
+"set listchars=eol:~,tab:>.,trail:~,extends:>>,precedes:<a
+" PI, =>, >>, <<
+set listchars=eol:¶,tab:⇒,,trail:␣,extends:»,precedes:«
 set list
-
+" help https://vi.stackexchange.com/questions/422/displaying-tabs-as-characters
 set syntax=whitespace
-
 
 set pastetoggle=<F2>
 "Remove all trailing whitespace by pressing F5
@@ -202,76 +235,79 @@ nnoremap k gk
 " mouse selection
 se mouse+=a
 
-set cursorline              " have a line indicate the cursor location
-set ruler                   " show the cursor position all the time
-set nostartofline           " Avoid moving cursor to BOL when jumping around
-set virtualedit=block       " Let cursor move past the last char in <C-v>  mode
-set scrolloff=3             " Keep 3 context lines above and below the cursor
-set backspace=2             " Allow backspacing over autoindent, EOL, and BOL
-set showmatch               " Briefly jump to a paren once it's balanced
-set nowrap                  " don't wrap text
-set linebreak               " don't wrap textin the middle of a word
-set autoindent              " always set autoindenting on
-set smartindent             " use smart indent if there is no indent file
-set tabstop=4               " <tab> inserts 4 spaces
-set shiftwidth=4            " but an indent level is 2 spaces wide.
-set softtabstop=4           " <BS> over an autoindent deletes both spaces.
-"set expandtab               " Use spaces, not tabs, for autoindent/tab key.
-set shiftround              " rounds indent to a multiple of shiftwidth
-set matchpairs+=<:>         " show matching <> (html mainly) as well
-set foldmethod=indent       " allow us to fold on indents
-set foldlevel=99            " don't fold by default
+set cursorline				" have a line indicate the cursor location
+set ruler					" show the cursor position all the time
+set nostartofline			" Avoid moving cursor to BOL when jumping around
+set virtualedit=block		" Let cursor move past the last char in <C-v>  mode
+set scrolloff=3				" Keep 3 context lines above and below the cursor
+set backspace=2				" Allow backspacing over autoindent, EOL, and BOL
+set showmatch				" Briefly jump to a paren once it's balanced
+set nowrap					" don't wrap text
+set linebreak				" don't wrap textin the middle of a word
+set autoindent				" always set autoindenting on
+set copyindent    " copy the previous indentation on autoindenting
+set smartindent				" use smart indent if there is no indent file
+set tabstop=4				" <tab> inserts 4 spaces
+set shiftwidth=4			" but an indent level is 2 spaces wide.
+set softtabstop=4			" <BS> over an autoindent deletes both spaces.
+"set expandtab				 " Use spaces, not tabs, for autoindent/tab key.
+set shiftround				" rounds indent to a multiple of shiftwidth
+set matchpairs+=<:>			" show matching <> (html mainly) as well
+set foldmethod=indent		" allow us to fold on indents
+set foldlevel=99			" don't fold by default
 hi Folded term=standout ctermfg=darkblue ctermbg=grey guifg=White guibg=NONE guifg=#afcfef
 
-set history=1000         " remember more commands and search history
-set undolevels=1000      " use many muchos levels of undo
+set history=1000		 " remember more commands and search history
+set undolevels=1000		 " use many muchos levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
-set title                " change the terminal's title
-set visualbell           " don't beep
-set noerrorbells         " don't beep
+set title				 " change the terminal's title
+set visualbell			 " don't beep
+set noerrorbells		 " don't beep
 
 " don't outdent hashes
 inoremap # #
 "
 
 """" Reading/Writing
-set noautowrite             " Never write a file unless I request it.
-set noautowriteall          " NEVER.
-set noautoread              " Don't automatically re-read changed files.
-set modeline                " Allow vim options to be embedded in files;
-set modelines=5             " they must be within the first or last 5 lines.
-set ffs=unix,dos,mac        " Try recognizing dos, unix, and mac line endings.
+set noautowrite				" Never write a file unless I request it.
+set noautowriteall			" NEVER.
+set noautoread				" Don't automatically re-read changed files.
+set modeline				" Allow vim options to be embedded in files;
+set modelines=5				" they must be within the first or last 5 lines.
+set ffs=unix,dos,mac		" Try recognizing dos, unix, and mac line endings.
 
 """" Messages, Info, Status
-set ls=2                    " allways show status line
-set vb t_vb=                " Disable all bells.  I hate ringing/flashing.
-set confirm                 " Y-N-C prompt if closing with unsaved changes.
-set showcmd                 " Show incomplete normal mode commands as I type.
-set report=0                " : commands always print changed line count.
-set shortmess+=a            " Use [+]/[RO]/[w] for modified/readonly/written.
-set ruler                   " Show some info, even without statuslines.
-set laststatus=2            " Always show statusline, even if only 1 window.
-set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
+set ls=2					" allways show status line
+set vb t_vb=				" Disable all bells.  I hate ringing/flashing.
+set confirm					" Y-N-C prompt if closing with unsaved changes.
+set showcmd					" Show incomplete normal mode commands as I type.
+set report=0				" : commands always print changed line count.
+set shortmess+=a			" Use [+]/[RO]/[w] for modified/readonly/written.
+set ruler					" Show some info, even without statuslines.
+set laststatus=2			" Always show statusline, even if only 1 window.
+""set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
 
 """ Searching and Patterns
-set ignorecase              " Default to using case insensitive searches,
-set smartcase               " unless uppercase letters are used in the regex.
-set smarttab                " Handle tabs more intelligently
-set hlsearch                " Highlight searches by default.
-set incsearch               " Incrementally search while typing a /regex
+set ignorecase				" Default to using case insensitive searches,
+set smartcase				" unless uppercase letters are used in the regex.
+set smarttab				" Handle tabs more intelligently
+set hlsearch				" Highlight searches by default.
+set incsearch				" Incrementally search while typing a /regex
 
 
 set spelllang=en_us
 set background=dark
 colorscheme Tomorrow-Night-Bright
 "':echo g:colors_name' to check current color scheme
+"
 function! SetupCEnv()
 	setlocal colorcolumn=80
-	set tabstop=4           " tab is 8 spaces
+	set tabstop=4			" tab is 8 spaces
 	set softtabstop=4
-	set expandtab           " use spaces, no tabs, for autoindent/tab key.
+	set expandtab			" use spaces, no tabs, for autoindent/tab key.
 	set bg=light
 	colorscheme desert
+	let g:airline#extensions#whitespace#enabled = 0  "disable white space for C, since we mix all together.
 endfunction
 
 function! SetupTextEnv()
@@ -292,7 +328,10 @@ function! SetupPythonEnv()
 	" bugbug, E501, line too long.
 	" bugbug, pylint options in ~/.pylintrc only
 endfunction
-
-autocmd BufRead,BufNew *.c,*.h,*.cpp			:call SetupCEnv()       " c programming
-autocmd BufRead *.txt,*.text,*.md,*.markdown    :call SetupTextEnv()    " markdown and text
+autocmd BufRead,BufNew *.c,*.h,*.cpp			:call SetupCEnv()		" c programming
+autocmd BufRead *.txt,*.text,*.md,*.markdown	:call SetupTextEnv()	" markdown and text
 autocmd BufRead,BufNew *.py						:call SetupPythonEnv()	" python programming
+
+" autosource config on exit
+au BufLeave $MYVIMRC :source $MYVIMRC
+
