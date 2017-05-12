@@ -76,6 +76,8 @@ Plug 'majutsushi/tagbar',	 { 'for': ['c', 'cpp'] }
 Plug 'jiajunlu/cscope_maps', { 'for': ['c', 'cpp'] }
 Plug 'vim-scripts/cscope-menu', { 'for': ['c', 'cpp'] }
 
+Plug 'JamshedVesuna/vim-markdown-preview', { 'for'; ['markdown', 'md'] }
+
 " Fancy statusline
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-airline/vim-airline'
