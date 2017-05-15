@@ -70,7 +70,8 @@ Plug 'majutsushi/tagbar',	 { 'for': ['c', 'cpp'] }
 Plug 'jiajunlu/cscope_maps', { 'for': ['c', 'cpp'] }
 Plug 'vim-scripts/cscope-menu', { 'for': ['c', 'cpp'] }
 
-Plug 'JamshedVesuna/vim-markdown-preview', { 'for'; ['markdown', 'md'] }
+" install grip
+Plug 'JamshedVesuna/vim-markdown-preview', { 'for': ['markdown', 'md'] }
 
 " Fancy statusline
 Plug 'vim-airline/vim-airline-themes'
@@ -125,6 +126,8 @@ map <F3> :call PropagatePasteBufferToOSX()<cr>
 
 let g:airline#extensions#tagbar#enabled = 1
 
+let vim_markdown_preview_toggle=2
+let vim_markdown_preview_github=1
 " map <C-n> :NERDTreeToggle<CR>
 " autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
 " " Close all open buffers on entering a window if the only
@@ -309,6 +312,7 @@ endfunction
 function! SetupTextEnv()
 	setlocal spell
 	colorscheme molokai
+	set wrap
 endfunction
 
 function! SetupPythonEnv()
