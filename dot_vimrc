@@ -45,9 +45,6 @@ Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeTabsToggle' }
 Plug 'jistr/vim-nerdtree-tabs', { 'on':  'NERDTreeTabsToggle' }
 
-" use "& to copy paste between tmux buffer
-Plug 'kana/vim-fakeclip'
-
 " use gc
 " Make commenting easier, [:help commentary]
 Plug 'tpope/vim-commentary'
@@ -84,6 +81,8 @@ Plug 'FooSoft/vim-argwrap'
 
 " p4
 Plug 'nfvs/vim-perforce'
+
+Plug 'ctrlpvim/ctrlp.vim'
 
 syntax on
 filetype plugin indent on					" required!
@@ -194,7 +193,7 @@ nnoremap td  :tabclose<CR>
 "nnoremap th :tabnext<CR>
 "nnoremap tl :tabprev<CR>
 "nnoremap tn :tabnew<CR>
-set guitablabel=\[%N\]\ %t\ %M
+set guitablabel=%t
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
