@@ -1,0 +1,11 @@
+*.ref
+*.sort
+*.out
+*.att
+*.d
+*.d2
+*.html
+*.htm
+*.txt
+cscope.files
+map

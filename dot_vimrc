@@ -60,7 +60,7 @@ Plug 'tpope/vim-fugitive'
 
 " Python completion and tag navigation
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }  " jedi-vim is a VIM binding to the autocompletion library Jedi.
-Plug 'klen/python-mode', { 'for': 'python' }
+" Plug 'klen/python-mode', { 'for': 'python' }
 
 " C & Cpp
 Plug 'majutsushi/tagbar',	 { 'for': ['c', 'cpp'] }
@@ -87,6 +87,11 @@ Plug 'nfvs/vim-perforce'
 
 Plug 'ctrlpvim/ctrlp.vim'
 
+Plug 'kshenoy/vim-signature'
+
+" When you open a file:line, for instance when coping and pasting from an
+" error from your compiler vim tries to open a file with a colon in its name.
+Plug 'bogado/file-line'
 syntax on
 filetype plugin indent on					" required!
 
@@ -148,7 +153,10 @@ map <C-n> :NERDTreeTabsToggle<CR>
 noremap <silent> <F8> :TagbarToggle<CR>
 nmap <Leader>tb :TagbarToggle<CR>
 
-""" copy to fakeclip
+"map <F6> :!cscope -b<CR>:cs reset<CR><CR>
+map <F6> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
+  \:!cscope -b -i cscope.files -f cscope.out<CR>
+  \:cs reset<CR>
 
 """ ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>

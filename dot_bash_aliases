@@ -23,3 +23,5 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 GREP_EXCLUDE_LIST='--exclude \*.o --exclude \*.so --exclude \*.out --exclude \*.gch'
 alias rgrep='grep -rHn '$GREP_EXCLUDE_LIST
 
+alias ag='ag --path-to-agignore ~/.ignore'
+
