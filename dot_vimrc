@@ -32,12 +32,23 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'scrooloose/syntastic', { 'for': ['php', 'python', 'javascript', 'css'] }
 
 " Pairs of handy bracket mappings
-Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-unimpaired'
 
 " snippet
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
+"
+if (has('python3'))
+	Plug 'SirVer/ultisnips'
+	" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+	let g:UltiSnipsExpandTrigger="<tab>"
+	let g:UltiSnipsJumpForwardTrigger="<c-b>"
+	let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+	" If you want :UltiSnipsEdit to split your window.
+	let g:UltiSnipsEditSplit="vertical"
+else
+	Plug 'garbas/vim-snipmate'
+	Plug 'MarcWeber/vim-addon-mw-utils' "required for snipmate
+	Plug 'tomtom/tlib_vim' "required for snipmate
+endif
 
 " Optional:
 Plug 'honza/vim-snippets'
@@ -69,6 +80,8 @@ Plug 'vim-scripts/cscope-menu', { 'for': ['c', 'cpp'] }
 
 " install grip
 Plug 'JamshedVesuna/vim-markdown-preview', { 'for': ['markdown', 'md'] }
+Plug 'godlygeek/tabular', { 'for': ['markdown', 'md'] }
+Plug 'plasticboy/vim-markdown', { 'for': ['markdown', 'md'] }
 
 " Fancy statusline
 Plug 'vim-airline/vim-airline-themes'
@@ -87,6 +100,7 @@ Plug 'nfvs/vim-perforce'
 
 Plug 'ctrlpvim/ctrlp.vim'
 
+"Plugin to toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
 
 " When you open a file:line, for instance when coping and pasting from an
@@ -127,6 +141,9 @@ endfunction
 
 nnoremap <leader>6 :call PropagatePasteBufferToOSX()<cr>
 map <F3> :call PropagatePasteBufferToOSX()<cr>
+map <Leader>y y <bar> :call PropagatePasteBufferToOSX()<cr>
+map <Leader>yy yy <bar> :call PropagatePasteBufferToOSX()<cr>
+
 
 let g:airline#extensions#tagbar#enabled = 1
 
